@@ -79,6 +79,7 @@ class PostSeeder extends Seeder
                             <p>To use these components in your project, simply copy the HTML structure and include the necessary CSS/JS files.</p>
                             <p>Check the documentation for more details on customization options and advanced usage.</p>",
                 'published_at' => now()->subDays(rand(1, 30)),
+                'quantity' => $component['quantity'],
             ]);
         }
     }
