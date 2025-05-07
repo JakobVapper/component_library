@@ -23,7 +23,6 @@ class AdminPostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required',
             'excerpt' => 'nullable|string',
             'featured_image' => 'nullable|url',
         ]);
@@ -39,24 +38,14 @@ class AdminPostController extends Controller
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully!');
     }
 
-    public function edit(Post $post)
-    {
-        return view('admin.posts.edit', compact('post'));
-    }
-
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required',
             'excerpt' => 'nullable|string',
             'featured_image' => 'nullable|url',
         ]);
-
-        if ($post->title !== $validated['title']) {
-            $validated['slug'] = Str::slug($validated['title']);
-        }
-
+        
         if ($request->has('publish') && !$post->published_at) {
             $validated['published_at'] = now();
         } elseif (!$request->has('publish') && $post->published_at) {
@@ -66,6 +55,11 @@ class AdminPostController extends Controller
         $post->update($validated);
 
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully!');
+    }
+
+    public function edit(Post $post)
+    {
+        return view('admin.posts.edit', compact('post'));
     }
 
     public function destroy(Post $post)

@@ -65,19 +65,6 @@ class PostSeeder extends Seeder
                 'title' => $component['name'] . ' Component',
                 'slug' => Str::slug($component['name'] . '-component'),
                 'excerpt' => "A collection of {$component['quantity']} customizable {$component['name']} components for your projects.",
-                'content' => "<h2>{$component['name']} Component</h2>
-                            <p>{$component['description']}</p>
-                            <p>This component library includes {$component['quantity']} different variations of the {$component['name']} component, each designed for specific use cases.</p>
-                            <h3>Features</h3>
-                            <ul>
-                                <li>Fully responsive design</li>
-                                <li>Customizable through CSS variables</li>
-                                <li>Accessible with proper ARIA attributes</li>
-                                <li>Compatible with all modern browsers</li>
-                            </ul>
-                            <h3>Implementation</h3>
-                            <p>To use these components in your project, simply copy the HTML structure and include the necessary CSS/JS files.</p>
-                            <p>Check the documentation for more details on customization options and advanced usage.</p>",
                 'published_at' => now()->subDays(rand(1, 30)),
                 'quantity' => $component['quantity'],
             ]);

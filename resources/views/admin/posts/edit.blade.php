@@ -35,14 +35,6 @@
                         </div>
                         
                         <div class="mb-4">
-                            <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                            <textarea name="content" id="content" rows="10" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>{{ old('content', $post->content) }}</textarea>
-                            @error('content')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        
-                        <div class="mb-4">
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL (optional)</label>
                             <input type="url" name="featured_image" id="featured_image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value="{{ old('featured_image', $post->featured_image) }}">
                             @error('featured_image')

@@ -13,9 +13,9 @@ class Post extends Model
         'title',
         'slug',
         'excerpt',
-        'content',
         'featured_image',
-        'published_at'
+        'published_at',
+        'quantity',
     ];
 
     protected $casts = [
@@ -25,5 +25,10 @@ class Post extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function elements()
+    {
+        return $this->hasMany(Element::class);
     }
 }
