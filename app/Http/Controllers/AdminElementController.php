@@ -21,6 +21,29 @@ class AdminElementController extends Controller
         return view('admin.elements.index', compact('elements'));
     }
 
+    public function approve(Element $element)
+    {
+        $element->status = 'approved';
+        $element->save();
+        
+        return redirect()->route('admin.elements.index')
+            ->with('success', 'Element approved successfully.');
+    }
+
+    public function reject(Element $element)
+    {
+        $element->status = 'rejected';
+        $element->save();
+        
+        return redirect()->route('admin.elements.index')
+            ->with('success', 'Element rejected.');
+    }
+
+    public function review(Element $element)
+    {
+        return view('admin.elements.review', compact('element'));
+    }
+
     public function create()
     {
         // Get all posts for the dropdown
@@ -68,6 +91,11 @@ class AdminElementController extends Controller
             'content' => 'required|string', 
             'code' => 'required|string',
         ]);
+
+        // Optionally update status if specifically set
+        if ($request->has('status')) {
+            $validated['status'] = $request->status;
+        }
 
         $element->update($validated);
 

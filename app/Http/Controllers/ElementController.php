@@ -35,9 +35,11 @@ class ElementController extends Controller
         $element->name = $validated['name'];
         $element->content = $validated['content'];
         $element->code = $validated['code'];
+        $element->status = 'pending';
         $element->save();
 
-        return redirect()->route('blog.show', $element->post->slug)->with('success', 'Element added successfully!');
+        return redirect()->route('blog.show', $element->post->slug)
+            ->with('success', 'Element submitted successfully and awaiting admin approval.');
     }
 
     public function update(Request $request, Element $element)
@@ -52,9 +54,18 @@ class ElementController extends Controller
             'code' => 'required|string',
         ]);
 
-        $element->update($validated);
+        $element->name = $validated['name'];
+        $element->content = $validated['content'];
+        $element->code = $validated['code'];
 
-        return redirect()->route('blog.show', $element->post->slug)->with('success', 'Element updated successfully!');
+        if (!auth()->user()->is_admin) {
+            $element->status = 'pending';
+        }
+
+        $element->save();
+
+        return redirect()->route('blog.show', $element->post->slug)
+            ->with('success', 'Element updated successfully and awaiting admin approval.');
     }
 
     public function edit(Element $element)

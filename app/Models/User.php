@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -43,6 +44,37 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    /**
+     * Get all elements created by the user.
+     */
+    public function elements()
+    {
+        return $this->hasMany(Element::class);
+    }
+
+    /**
+     * Check if the user has pending elements for a specific post.
+     */
+    public function hasPendingElementsForPost($postId)
+    {
+        return $this->elements()
+            ->where('post_id', $postId)
+            ->where('status', 'pending')
+            ->exists();
+    }
+
+    /**
+     * Get the count of pending elements for a specific post.
+     */
+    public function pendingElementsCountForPost($postId)
+    {
+        return $this->elements()
+            ->where('post_id', $postId)
+            ->where('status', 'pending')
+            ->count();
     }
 }

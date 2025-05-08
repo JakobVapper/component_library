@@ -27,8 +27,43 @@ class Post extends Model
         return 'slug';
     }
 
+    /**
+     * Get all elements for this post.
+     */
     public function elements()
     {
         return $this->hasMany(Element::class);
+    }
+
+    /**
+     * Get only the approved elements for this post.
+     */
+    public function approvedElements()
+    {
+        return $this->elements()->where('status', 'approved');
+    }
+
+    /**
+     * Get only the pending elements for this post.
+     */
+    public function pendingElements()
+    {
+        return $this->elements()->where('status', 'pending');
+    }
+
+    /**
+     * Get only the rejected elements for this post.
+     */
+    public function rejectedElements()
+    {
+        return $this->elements()->where('status', 'rejected');
+    }
+
+    /**
+     * Check if the post is published.
+     */
+    public function isPublished()
+    {
+        return !is_null($this->published_at);
     }
 }

@@ -18,6 +18,9 @@ Route::get('/blog/{post}', [BlogController::class, 'show'])->middleware(['auth',
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('posts', AdminPostController::class);
     Route::resource('elements', AdminElementController::class);
+    Route::patch('/elements/{element}/approve', [AdminElementController::class, 'approve'])->name('elements.approve');
+    Route::patch('/elements/{element}/reject', [AdminElementController::class, 'reject'])->name('elements.reject');
+    Route::get('/elements/{element}/review', [AdminElementController::class, 'review'])->name('elements.review');
 });
 
 Route::middleware('auth')->group(function () {
