@@ -35,4 +35,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/elements/{element}', [ElementController::class, 'destroy'])->name('elements.destroy');
 });
 
+Route::get('/element-preview/{element}', function(App\Models\Element $element) {
+    return view('elements.preview', compact('element'));
+})->name('elements.preview');
+
 require __DIR__.'/auth.php';

@@ -26,6 +26,7 @@ class ElementController extends Controller
             'post_id' => 'required|exists:posts,id',
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+            'code' => 'required|string',
         ]);
 
         $element = new Element();
@@ -33,24 +34,14 @@ class ElementController extends Controller
         $element->user_id = auth()->id();
         $element->name = $validated['name'];
         $element->content = $validated['content'];
+        $element->code = $validated['code'];
         $element->save();
 
         return redirect()->route('blog.show', $element->post->slug)->with('success', 'Element added successfully!');
     }
 
-    public function edit(Element $element)
-    {
-        // Check if user is authorized to edit this element
-        if ($element->user_id !== auth()->id() && !auth()->user()->is_admin) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        return view('elements.edit', compact('element'));
-    }
-
     public function update(Request $request, Element $element)
     {
-        // Check if user is authorized to update
         if ($element->user_id !== auth()->id() && !auth()->user()->is_admin) {
             abort(403, 'Unauthorized action.');
         }
@@ -58,6 +49,7 @@ class ElementController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+            'code' => 'required|string',
         ]);
 
         $element->update($validated);
@@ -65,9 +57,17 @@ class ElementController extends Controller
         return redirect()->route('blog.show', $element->post->slug)->with('success', 'Element updated successfully!');
     }
 
+    public function edit(Element $element)
+    {
+        if ($element->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('elements.edit', compact('element'));
+    }
+
     public function destroy(Element $element)
     {
-        // Check if user is authorized to delete
         if ($element->user_id !== auth()->id() && !auth()->user()->is_admin) {
             abort(403, 'Unauthorized action.');
         }

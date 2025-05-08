@@ -33,8 +33,17 @@
                             
                             <div class="mb-4">
                                 <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                <textarea name="content" id="content" rows="6" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" required>{{ old('content') }}</textarea>
+                                <textarea name="content" id="content" rows="3" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" required>{{ old('content') }}</textarea>
                                 @error('content')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="code" class="block text-sm font-medium text-gray-700 mb-1">HTML/Tailwind Code</label>
+                                <textarea name="code" id="code" rows="8" class="font-mono shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" required>{{ old('code') }}</textarea>
+                                <p class="text-xs text-gray-500 mt-1">Paste your HTML and Tailwind CSS component code here</p>
+                                @error('code')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>

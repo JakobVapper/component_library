@@ -27,7 +27,12 @@
                             @if($post->published_at)
                                 <p class="text-gray-500 mb-6">Published: {{ $post->published_at->format('F j, Y') }}</p>
                             @endif
-        
+                            
+                            @if($post->excerpt)
+                                <div class="bg-gray-50 p-4 rounded-md mb-6">
+                                    <p class="italic">{{ $post->excerpt }}</p>
+                                </div>
+                            @endif
                         </div>
                         
                         <!-- Elements Section -->
@@ -77,8 +82,20 @@
                                             @endauth
                                         </div>
                                         
-                                        <div class="mt-3">
-                                            <div class="element-content">{{ $element->content }}</div>
+                                        <div class="mt-4">
+                                            <div class="element-description mb-4">{{ $element->content }}</div>
+                                            
+                                            <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                                                <h5 class="text-sm font-medium mb-2">Preview:</h5>
+                                                <div class="p-4 bg-white border border-gray-200 rounded">
+                                                    <iframe src="{{ route('elements.preview', $element) }}" class="w-full" style="height: 150px; border: none;"></iframe>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="bg-gray-100 p-4 rounded-lg">
+                                                <h5 class="text-sm font-medium mb-2">Code:</h5>
+                                                <pre class="bg-gray-800 text-green-100 rounded-md overflow-x-auto p-4 text-sm"><code>{{ htmlspecialchars($element->code) }}</code></pre>
+                                            </div>
                                         </div>
                                     </div>
                                 @empty

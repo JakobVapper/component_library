@@ -45,9 +45,18 @@
                         </div>
                         
                         <div class="mb-4">
-                            <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                            <textarea name="content" id="content" rows="6" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>{{ old('content') }}</textarea>
+                            <label for="content" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea name="content" id="content" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>{{ old('content') }}</textarea>
                             @error('content')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="code" class="block text-sm font-medium text-gray-700">HTML/Tailwind Code</label>
+                            <textarea name="code" id="code" rows="8" class="font-mono mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>{{ old('code') }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Paste HTML and Tailwind CSS component code here</p>
+                            @error('code')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

@@ -34,13 +34,15 @@ class AdminElementController extends Controller
             'post_id' => 'required|exists:posts,id',
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+            'code' => 'required|string',
         ]);
 
         $element = new Element();
         $element->post_id = $validated['post_id'];
-        $element->user_id = auth()->id(); // Element created by the admin
+        $element->user_id = auth()->id();
         $element->name = $validated['name'];
         $element->content = $validated['content'];
+        $element->code = $validated['code'];
         $element->save();
 
         return redirect()->route('admin.elements.index')->with('success', 'Element created successfully!');
@@ -63,7 +65,8 @@ class AdminElementController extends Controller
         $validated = $request->validate([
             'post_id' => 'required|exists:posts,id',
             'name' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'required|string', 
+            'code' => 'required|string',
         ]);
 
         $element->update($validated);
