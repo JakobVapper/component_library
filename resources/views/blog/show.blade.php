@@ -93,8 +93,19 @@
                                             </div>
                                             
                                             <div class="bg-gray-100 p-4 rounded-lg">
-                                                <h5 class="text-sm font-medium mb-2">Code:</h5>
-                                                <pre class="bg-gray-800 text-green-100 rounded-md overflow-x-auto p-4 text-sm"><code>{{ htmlspecialchars($element->code) }}</code></pre>
+                                                <div class="flex justify-between items-center mb-2">
+                                                    <h5 class="text-sm font-medium">Code:</h5>
+                                                    <button 
+                                                        onclick="copyElementCode(this, '{{ $element->id }}')" 
+                                                        class="text-xs bg-blue-600 hover:bg-blue-700 text-white py-1 px-2 rounded flex items-center"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                        </svg>
+                                                        Copy
+                                                    </button>
+                                                </div>
+                                                <pre class="bg-gray-800 text-green-100 rounded-md overflow-x-auto p-4 text-sm"><code id="element-code-{{ $element->id }}" data-code="{{ htmlspecialchars($element->code) }}"></code></pre>
                                             </div>
                                         </div>
                                     </div>
@@ -140,4 +151,47 @@
             </div>
         </div>
     </div>
+   
+    @push('scripts')
+    <script>
+        // Initialize all code elements on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElements = document.querySelectorAll('[data-code]');
+            codeElements.forEach(element => {
+                // Create a temporary div to decode HTML entities
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = element.getAttribute('data-code');
+                // Set the decoded text content
+                element.textContent = tempDiv.textContent;
+            });
+        });
+
+        function copyElementCode(button, elementId) {
+            const codeElement = document.getElementById('element-code-' + elementId);
+            const textArea = document.createElement('textarea');
+            textArea.value = codeElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const originalText = button.innerHTML;
+            button.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Copied!
+            `;
+            button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            button.classList.add('bg-green-600', 'hover:bg-green-700');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('bg-green-600', 'hover:bg-green-700');
+                button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }, 2000);
+        }
+    </script>
+    @endpush
 </x-app-layout>
