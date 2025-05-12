@@ -88,13 +88,21 @@
                                             <div class="bg-gray-100 p-4 rounded-lg mb-4">
                                                 <h5 class="text-sm font-medium mb-2">Preview:</h5>
                                                 <div class="p-4 bg-white border border-gray-200 rounded">
-                                                    <iframe src="{{ route('elements.preview', $element) }}" class="w-full" style="height: 150px; border: none;"></iframe>
+                                                    <iframe src="{{ route('elements.preview', $element) }}" class="w-full" id="preview-frame-{{ $element->id }}" onload="resizeIframe(this)" style="border: none;"></iframe>
                                                 </div>
                                             </div>
                                             
                                             <div class="bg-gray-100 p-4 rounded-lg">
                                                 <div class="flex justify-between items-center mb-2">
-                                                    <h5 class="text-sm font-medium">Code:</h5>
+                                                    <button 
+                                                        onclick="toggleCode('code-container-{{ $element->id }}')" 
+                                                        class="text-xs bg-gray-700 hover:bg-gray-800 text-white py-1 px-3 rounded flex items-center"
+                                                    >
+                                                        <span id="toggle-text-{{ $element->id }}">Show code</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="toggle-icon-{{ $element->id }}">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                        </svg>
+                                                    </button>
                                                     <button 
                                                         onclick="copyElementCode(this, '{{ $element->id }}')" 
                                                         class="text-xs bg-blue-600 hover:bg-blue-700 text-white py-1 px-2 rounded flex items-center"
@@ -105,7 +113,9 @@
                                                         Copy
                                                     </button>
                                                 </div>
-                                                <pre class="bg-gray-800 text-green-100 rounded-md overflow-x-auto p-4 text-sm"><code id="element-code-{{ $element->id }}" data-code="{{ htmlspecialchars($element->code) }}"></code></pre>
+                                                <div id="code-container-{{ $element->id }}" class="hidden">
+                                                    <pre class="bg-gray-800 text-green-100 rounded-md overflow-x-auto p-4 text-sm"><code id="element-code-{{ $element->id }}" data-code="{{ htmlspecialchars($element->code) }}"></code></pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -165,6 +175,30 @@
                 element.textContent = tempDiv.textContent;
             });
         });
+
+        function resizeIframe(iframe) {
+            // Add a small delay to ensure content is fully loaded
+            setTimeout(() => {
+                iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+            }, 100);
+        }
+
+        function toggleCode(containerId) {
+            const container = document.getElementById(containerId);
+            const elementId = containerId.split('-').pop();
+            const toggleText = document.getElementById('toggle-text-' + elementId);
+            const toggleIcon = document.getElementById('toggle-icon-' + elementId);
+            
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                toggleText.textContent = 'Hide code';
+                toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />';
+            } else {
+                container.classList.add('hidden');
+                toggleText.textContent = 'Show code';
+                toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />';
+            }
+        }
 
         function copyElementCode(button, elementId) {
             const codeElement = document.getElementById('element-code-' + elementId);

@@ -23,7 +23,9 @@
                                 <div class="p-5">
                                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900">{{ $post->title }}</h5>
                                     <div class="flex items-center mb-2">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">{{ $post->quantity ?? 'N/A' }} variants</span>
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                            {{ $post->elements()->where('status', 'approved')->count() }} variants
+                                        </span>
                                     </div>
                                     <p class="mb-3 font-normal text-gray-700 overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{ $post->excerpt }}</p>
                                     <a href="{{ route('blog.show', $post) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
