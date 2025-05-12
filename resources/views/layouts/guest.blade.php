@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,16 +15,34 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+        <div class="min-h-screen flex flex-col bg-black">
+            <nav class="px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <a href="/" class="text-white text-xl font-bold">ComponentLibrary</a>
+                    </div>
+                    <div class="flex space-x-4">
+                        @if (Route::has('login'))
+                            @auth
+                                <a href="{{ route('dashboard') }}" class="text-gray-300 hover:text-white transition-colors">Dashboard</a>
+                            @else
+                                <a href="{{ route('login') }}" class="text-gray-300 hover:text-white transition-colors">Log in</a>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="text-gray-300 hover:text-white transition-colors">Register</a>
+                                @endif
+                            @endauth
+                        @endif
+                    </div>
+                </div>
+            </nav>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="flex-grow">
                 {{ $slot }}
             </div>
+            
+            <footer class="py-6 text-center text-sm text-gray-400">
+                &copy; {{ date('Y') }} ComponentLibrary. All rights reserved.
+            </footer>
         </div>
     </body>
 </html>

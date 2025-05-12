@@ -18,7 +18,9 @@ class AdminElementController extends Controller
     public function index()
     {
         $elements = Element::with(['post', 'user'])->latest()->paginate(15);
-        return view('admin.elements.index', compact('elements'));
+        $posts = Post::orderBy('title')->get();
+        $pendingCount = Element::where('status', 'pending')->count();
+        return view('admin.elements.index', compact('elements', 'posts', 'pendingCount'));
     }
 
     public function approve(Element $element)
