@@ -1,8 +1,8 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Post;
+use App\Models\Element;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -14,8 +14,9 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing posts before seeding
-        DB::table('posts')->truncate();
+        Element::query()->delete();
+        
+        Post::query()->delete();
 
         $components = [
             [
