@@ -14,13 +14,13 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-black text-white">
-        <div class="min-h-screen">
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-black">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-gray-900 border-b border-gray-800 shadow">
+            @isset($header)
+                <header class="bg-black border-b border-gray-800">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -43,7 +43,7 @@
                 </div>
             </footer>
         </div>
-        
+
         @stack('scripts')
     </body>
 </html>

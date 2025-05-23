@@ -8,10 +8,6 @@ switch ($align) {
     case 'top':
         $alignmentClasses = 'origin-top';
         break;
-    case 'none':
-    case 'false':
-        $alignmentClasses = '';
-        break;
     case 'right':
     default:
         $alignmentClasses = 'origin-top-right right-0';
