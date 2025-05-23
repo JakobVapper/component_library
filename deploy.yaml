@@ -11,6 +11,7 @@ hosts:
     http_user: virt118432
     remote_user: virt118432
     deploy_path: '~/domeenid/www.tak22vapper.itmajakas.ee/componentlibrary'
+    ssh_arguments: ['-A']
 
 tasks:
   npm:production:
