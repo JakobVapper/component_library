@@ -62,9 +62,8 @@ class PostSeeder extends Seeder
                 Post::create([
                     'title' => $component['name'] . ' Component',
                     'slug' => Str::slug($component['name'] . '-component'),
-                    'excerpt' => "A collection of {$component['quantity']} customizable {$component['name']} components for your projects.",
+                    'excerpt' => "A collection of customizable {$component['name']} components for your projects.",
                     'published_at' => now()->subDays(rand(1, 30)),
-                    'quantity' => $component['quantity'],
                 ]);
             }
         } finally {
